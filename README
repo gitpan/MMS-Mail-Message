@@ -1,0 +1,20 @@
+MMS-Mail-Message
+
+This class is used by MMS::Parser to provide an itermediate data storage class after the MMS has been parsed but before it has been through the second stage of parsing (the provider parser).
+
+INSTALLATION
+
+To install this module, run the following commands:
+
+    perl Makefile.PL
+    make
+    make test
+    make install
+
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2005 Rob Lee
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
