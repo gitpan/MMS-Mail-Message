@@ -9,11 +9,11 @@ MMS::Mail::Message - A class representing an MMS (or picture) message.
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -29,7 +29,15 @@ The following are the top-level methods of the MMS::Mail::Message class.
 
 =item new()
 
-Return a new MMS::Mail::Message object.
+Return a new MMS::Mail::Message object.  Valid attributes are:
+
+=over
+
+=item strip_characters STRING
+
+Passed as an array reference, strip_characters defines the characters used by the header_from, header_to, header_datetime, body_text and header_subject methods to remove from their respective properties (in both the MMS::Mail::Message and MMS::Mail::Message::Parsed classes).
+
+=back
 
 =back
 
@@ -56,6 +64,10 @@ Returns the MMS subject when invoked with no supplied parameter.  When supplied 
 =item body_text STRING
 
 Returns the MMS bodytext when invoked with no supplied parameter.  When supplied with a paramater it sets the object property to the supplied parameter.
+
+=item strip_characters STRING
+
+The supplied string should be a set of characters valid for use in a regular expression character class.  When set with a value the property is used by the header_from, header_to, header_datetime, body_text and header_subject methods to remove these characters from their respective properties (in both the MMS::Mail::Message and MMS::Mail::Message::Parsed classes).
 
 =item attachments ARRAYREF
 
@@ -102,24 +114,42 @@ Copyright 2005 Rob Lee, all rights reserved.
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
 
+=head1 SEE ALSO
+
+L<MMS::Mail::Message>, L<MMS::Mail::Message::Parsed>, L<MMS::Mail::Provider>, L<MMS::Mail::Provider>
+
 =cut
 
 sub new {
   my $type = shift;
+  my $args = {@_};
+
   my $self = {};
   bless $self, $type;
+ 
+
+  $self->{clone_fields} = [	"header_from",
+				"header_to",
+				"header_datetime",
+				"attachments",
+				"strip_characters"];
 
   $self->{fields} = [	"header_from",
 			"header_to",
 			"body_text",
 			"header_datetime",
 			"header_subject",
-			"attachments"];
+			"attachments",
+			"strip_characters"];
 
   foreach my $field (@{$self->{fields}}) {
     $self->{$field} = undef;
   }
   $self->{attachments} = [];
+
+  if (exists $args->{strip_characters}) {
+    $self->strip_characters($args->{strip_characters});
+  }
 
   return $self;
 }
@@ -127,8 +157,13 @@ sub new {
 sub header_datetime {
 
   my $self = shift;
+  my $element = shift;
 
-  if (@_) { $self->{header_datetime} = shift }
+  if (defined $element) { 
+    $element =~ s/[$self->{strip_characters}]//g if (defined $self->{strip_characters} );
+    $self->{header_datetime} = $element 
+  }
+
   return $self->{header_datetime};
 
 }
@@ -136,8 +171,13 @@ sub header_datetime {
 sub header_from {
 
   my $self = shift;
+  my $element = shift;
 
-  if (@_) { $self->{header_from} = shift }
+  if (defined $element) {
+    $element =~ s/[$self->{strip_characters}]//g if (defined $self->{strip_characters} );
+    $self->{header_from} = $element
+  }
+
   return $self->{header_from};
 
 }
@@ -145,8 +185,13 @@ sub header_from {
 sub header_to {
 
   my $self = shift;
+  my $element = shift;
 
-  if (@_) { $self->{header_to} = shift }
+  if (defined $element) {
+    $element =~ s/[$self->{strip_characters}]//g if (defined $self->{strip_characters} );
+    $self->{header_to} = $element
+  }
+
   return $self->{header_to};
 
 }
@@ -154,8 +199,13 @@ sub header_to {
 sub body_text {
 
   my $self = shift;
+  my $element = shift;
 
-  if (@_) { $self->{body_text} = shift }
+  if (defined $element) {
+    $element =~ s/[$self->{strip_characters}]//g if (defined $self->{strip_characters} );
+    $self->{body_text} = $element
+  }
+
   return $self->{body_text};
 
 }
@@ -163,8 +213,13 @@ sub body_text {
 sub header_subject {
 
   my $self = shift;
+  my $element = shift;
 
-  if (@_) { $self->{header_subject} = shift }
+  if (defined $element) {
+    $element =~ s/[$self->{strip_characters}]//g if (defined $self->{strip_characters} );
+    $self->{header_subject} = $element
+  }
+
   return $self->{header_subject};
 
 }
@@ -211,12 +266,22 @@ sub is_valid {
 
 }
 
+sub strip_characters {
+
+  my $self = shift;
+
+  if (@_) { $self->{strip_characters} = shift }
+  return $self->{strip_characters};
+
+}
+
+
 sub _clone_data {
 
   my $self = shift;
   my $message = shift;
 
-  foreach my $field (@{$self->{fields}}) {
+  foreach my $field (@{$self->{clone_fields}}) {
     $self->{$field} = $message->{$field};
   }
  
