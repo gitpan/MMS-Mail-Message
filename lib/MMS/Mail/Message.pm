@@ -9,15 +9,15 @@ MMS::Mail::Message - A class representing an MMS (or picture) message.
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 SYNOPSIS
 
-This class is used by MMS::Mail::Parser to provide an itermediate data storage class after the MMS has been parsed by the parse method but before it has been through the second stage of parsing (the provider_parse method).
+This class is used by MMS::Mail::Parser to provide an itermediate data storage class after the MMS has been parsed by the parse method but before it has been through the second stage of parsing (the MMS::Mail::Parser C<provider_parse> method).
 
 =head1 METHODS
 
@@ -27,15 +27,15 @@ The following are the top-level methods of the MMS::Mail::Message class.
 
 =over
 
-=item new()
+=item C<new()>
 
 Return a new MMS::Mail::Message object.  Valid attributes are:
 
 =over
 
-=item strip_characters STRING
+=item C<strip_characters> STRING
 
-Passed as an array reference, strip_characters defines the characters used by the header_from, header_to, header_datetime, body_text and header_subject methods to remove from their respective properties (in both the MMS::Mail::Message and MMS::Mail::Message::Parsed classes).
+Passed as an array reference, C<strip_characters> defines the characters used by the C<header_from>, C<header_to>, C<header_datetime>, C<body_text> and C<header_subject> methods to remove from their respective properties (in both the MMS::Mail::Message and MMS::Mail::Message::Parsed classes).
 
 =back
 
@@ -45,41 +45,41 @@ Passed as an array reference, strip_characters defines the characters used by th
 
 =over
 
-=item header_datetime STRING
+=item C<header_datetime> STRING
 
-Returns the time and date the MMS was sent (?) when invoked with no supplied parameter.  When supplied with a parameter it sets the object property to the supplied parameter.
+Returns the time and date the MMS was received when invoked with no supplied parameter.  When supplied with a parameter it sets the object property to the supplied parameter.
 
-=item header_from STRING
+=item C<header_from> STRING
 
 Returns the sending email address the MMS was sent from when invoked with no supplied parameter.  When supplied with a parameter it sets the object property to the supplied parameter.
 
-=item header_to STRING
+=item C<header_to> STRING
 
 Returns the recieving email address the MMS was sent to when invoked with no supplied parameter.  When supplied with a parameter it sets the object property to the supplied parameter.
 
-=item header_subject STRING
+=item C<header_subject> STRING
 
 Returns the MMS subject when invoked with no supplied parameter.  When supplied with a parameter it sets the object property to the supplied parameter.
 
-=item body_text STRING
+=item C<body_text> STRING
 
 Returns the MMS bodytext when invoked with no supplied parameter.  When supplied with a paramater it sets the object property to the supplied parameter.
 
-=item strip_characters STRING
+=item C<strip_characters> STRING
 
-The supplied string should be a set of characters valid for use in a regular expression character class.  When set with a value the property is used by the header_from, header_to, header_datetime, body_text and header_subject methods to remove these characters from their respective properties (in both the MMS::Mail::Message and MMS::Mail::Message::Parsed classes).
+The supplied string should be a set of characters valid for use in the regular expression character class C<s/[]//g>.  When set with a value the property is used by the C<header_from>, C<header_to>, C<header_datetime>, C<body_text> and C<header_subject> methods to remove these characters from their respective properties (in both the MMS::Mail::Message and MMS::Mail::Message::Parsed classes).
 
-=item attachments ARRAYREF
+=item C<attachments> ARRAYREF
 
 Returns an array reference to the array of MMS message attachments.  When supplied with a parameter it sets the object property to the supplied parameter.
 
-=item add_attachment MIME::Entity
+=item C<add_attachment> MIME::Entity
 
 Adds the supplied MIME::Entity attachment to the attachment stack for the message.  This method is mainly used by the MMS::MailParser class to add attatchments while parsing.
 
-=item is_valid
+=item C<is_valid>
 
-Returns true or false depending if the header_datetime, header_from and header_to fields are all populated or not.
+Returns true or false depending if the C<header_datetime>, C<header_from> and C<header_to> fields are all populated or not.
 
 =back
 
@@ -97,7 +97,7 @@ your bug as I make changes.
 
 =head1 NOTES
 
-To quote the perl artistic license ('perldoc perlartistic') :
+Please read the Perl artistic license ('perldoc perlartistic') :
 
 10. THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED
     WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES
@@ -116,7 +116,7 @@ under the same terms as Perl itself.
 
 =head1 SEE ALSO
 
-L<MMS::Mail::Message>, L<MMS::Mail::Message::Parsed>, L<MMS::Mail::Provider>, L<MMS::Mail::Provider>
+L<MMS::Mail::Message>, L<MMS::Mail::Message::Parsed>, L<MMS::Mail::Provider>
 
 =cut
 
