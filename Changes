@@ -1,5 +1,9 @@
 Revision history for MMS-Mail-Message
 
+0.04    28-Dec-2005 / 22:54
+	Used Class::Accessor to provide accessor code
+	Added cleanse_map functionality to allow per property regex cleanse/modify functionality or alternatively per property modification via a user supplied subroutine reference
+	Updated README
 0.03    28-Sep-2005 / 21:00
 	Improved pod by adding formatting codes
 0.02    26-Sep-2005 / 13:00

@@ -1,33 +1,50 @@
 #!perl -T
 
-use Test::More tests => 21;
+use Test::More tests => 25;
 use MMS::Mail::Message;
 
-my $message = new MMS::Mail::Message;
+my $mms = new MMS::Mail::Message;
 
-is($message->header_datetime("Somedate\n"),"Somedate\n");
-is($message->header_subject("Subject\n"),"Subject\n");
-is($message->header_from("From\n"),"From\n");
-is($message->header_to("To\n"),"To\n");
-is($message->body_text("Text\n"),"Text\n");
+is($mms->header_datetime("Somedate\n"),"Somedate\n");
+is($mms->header_subject("Subject\n"),"Subject\n");
+is($mms->header_from("From\n"),"From\n");
+is($mms->header_to("To\n"),"To\n");
+is($mms->body_text("Text\n"),"Text\n");
 
-is($message->header_datetime,"Somedate\n");
-is($message->header_subject,"Subject\n");
-is($message->header_from,"From\n");
-is($message->header_to,"To\n");
-is($message->body_text,"Text\n");
+is($mms->header_datetime,"Somedate\n");
+is($mms->header_subject,"Subject\n");
+is($mms->header_from,"From\n");
+is($mms->header_to,"To\n");
+is($mms->body_text,"Text\n");
 
-is($message->strip_characters("\n"),"\n");
+is($mms->strip_characters("\n"),"\n");
 
-is($message->header_datetime("Somedate\n"),"Somedate");
-is($message->header_subject("Subject\n"),"Subject");
-is($message->header_from("From\n"),"From");
-is($message->header_to("To\n"),"To");
-is($message->body_text("Text\n"),"Text");
+is($mms->header_datetime("Somedate\n"),"Somedate");
+is($mms->header_subject("Subject\n"),"Subject");
+is($mms->header_from("From\n"),"From");
+is($mms->header_to("To\n"),"To");
+is($mms->body_text("Text\n"),"Text");
 
-is($message->header_datetime,"Somedate");
-is($message->header_subject,"Subject");
-is($message->header_from,"From");
-is($message->header_to,"To");
-is($message->body_text,"Text");
+is($mms->header_datetime,"Somedate");
+is($mms->header_subject,"Subject");
+is($mms->header_from,"From");
+is($mms->header_to,"To");
+is($mms->body_text,"Text");
+
+my $attach = [];
+is($mms->attachments($attach),$attach);
+
+$mms->cleanse_map(undef);
+$mms->strip_characters('');
+
+my $map = { 	header_subject => 's/\n//g',
+		body_text => 's/\n//g'
+		};
+$mms->cleanse_map($map);
+
+is($mms->header_subject("Subject\n"),"Subject");
+is($mms->body_text("Text\n"),"Text");
+
+$mms->cleanse_map( {header_subject => sub { return "rob" }});
+is($mms->header_subject("Subject\n"),"rob");
 
