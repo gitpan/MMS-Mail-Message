@@ -3,7 +3,7 @@ NAME
     sent via email.
 
 VERSION
-    Version 0.04
+    Version 0.05
 
 SYNOPSIS
     This class is used by MMS::Mail::Parser to provide an itermediate data
@@ -81,6 +81,10 @@ METHODS
         Instance method - Returns true or false depending if the
         "header_datetime", "header_from" and "header_to" fields are all
         populated or not.
+
+    "set"
+        Instance method - Overides the Class::Accessor superclass set method
+        to apply cleanse_map and strip_character functionality to accessors.
 
 AUTHOR
     Rob Lee, "<robl at robl.co.uk>"
