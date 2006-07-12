@@ -3,7 +3,7 @@ NAME
     sent via email.
 
 VERSION
-    Version 0.05
+    Version 0.06
 
 SYNOPSIS
     This class is used by MMS::Mail::Parser to provide an itermediate data
@@ -41,6 +41,11 @@ METHODS
         Instance method - Returns the MMS subject when invoked with no
         supplied parameter. When supplied with a parameter it sets the
         object property to the supplied parameter.
+
+    "header_received_from" STRING
+        Instance method - Returns the email server that (last) sent the mms
+        when invoked with no supplied parameter. When supplied with a
+        parameter it sets the object property to the supplied parameter.
 
     "body_text" STRING
         Instance method - Returns the MMS bodytext when invoked with no

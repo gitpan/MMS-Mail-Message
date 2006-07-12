@@ -9,11 +9,11 @@ MMS::Mail::Message - A class representing an MMS (or picture) message sent via e
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06
 
 =cut
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 =head1 SYNOPSIS
 
@@ -52,6 +52,10 @@ Instance method - Returns the recieving email address the MMS was sent to when i
 =item C<header_subject> STRING
 
 Instance method - Returns the MMS subject when invoked with no supplied parameter.  When supplied with a parameter it sets the object property to the supplied parameter.
+
+=item C<header_received_from> STRING
+
+Instance method - Returns the email server that (last) sent the mms when invoked with no supplied parameter.  When supplied with a parameter it sets the object property to the supplied parameter.
 
 =item C<body_text> STRING
 
@@ -130,6 +134,7 @@ my @Accessors=(	"header_from",
 		"body_text",
 		"header_datetime",
 		"header_subject",
+		"header_received_from",
 		"cleanse_map",
 		"strip_characters",
 		"attachments"
